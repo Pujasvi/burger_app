@@ -4,7 +4,8 @@ import PropTypes from 'prop-types';
 
 const BurgerIngrediant=(props)=>{
     let ingrediants=null;
-    switch(props.Type){
+   
+    switch(props.type){
         case "bread-bottom":
             ingrediants=<div className={classes.BreadBottom}></div>
             break;
@@ -32,6 +33,7 @@ const BurgerIngrediant=(props)=>{
          default :
                 ingrediants=null;
     }
+   
     return ingrediants;
 }
 BurgerIngrediant.propTypes={
