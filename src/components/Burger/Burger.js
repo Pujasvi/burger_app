@@ -12,10 +12,17 @@ const Burger=(props)=>{
         })
     });
     console.log(transIngrediants);
+
+    //flatening the array
+    let flattenedIngrediants=transIngrediants.reduce((curr,el)=>{
+       
+        return curr.concat(el);
+    },[])
+   
     return (
         <div className={classes.Burger}>
             <BurgerIngrediant type="bread-top"></BurgerIngrediant>
-           {transIngrediants}
+           {flattenedIngrediants}
             <BurgerIngrediant type="bread-bottom"></BurgerIngrediant>
         </div>
     );
