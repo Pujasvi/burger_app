@@ -9,7 +9,7 @@ const Burger=(props)=>{
      * one method
      */
 
-    const transIngrediants=Object.keys(props.ingrediants)
+    let transIngrediants=Object.keys(props.ingrediants)
     .map((key)=>{
         return [...Array(props.ingrediants[key])].map((_,index)=>{
              return <BurgerIngrediant key={key+index} type={key}></BurgerIngrediant>
@@ -22,6 +22,9 @@ const Burger=(props)=>{
        
         return curr.concat(el);
     },[])
+    if(flattenedIngrediants.length<1){
+        flattenedIngrediants=<p>PLease select material to add</p>
+    }
    
     /**
      *  1st method ends
@@ -36,14 +39,14 @@ const Burger=(props)=>{
             transIngrediants2.push(<BurgerIngrediant type={key} key={key+i}></BurgerIngrediant>);
         }
     })
-
+    
     /** 2nd Method ends */
     
 
     return (
         <div className={classes.Burger}>
             <BurgerIngrediant type="bread-top"></BurgerIngrediant>
-           {transIngrediants2}
+           {flattenedIngrediants}
             <BurgerIngrediant type="bread-bottom"></BurgerIngrediant>
         </div>
     );
