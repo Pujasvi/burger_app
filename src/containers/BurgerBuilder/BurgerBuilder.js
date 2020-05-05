@@ -65,6 +65,19 @@ class BurgerBuilder extends Component{
         this.ModalDisplay=<h1>heelo</h1>//<Modal><OrderSummary ingrediants={this.state.ingrediants}></OrderSummary></Modal>
         console.log(this.ModalDisplay);
     }
+    modalClosed=()=>{
+        this.setState({
+            order:false
+        })
+    }
+    continueOrder=()=>{
+        alert("order continue");
+    }
+    cancelOrder=()=>{
+        this.setState({
+            order:false
+        })
+    }
     render (){
         console.log("this.test",this.ModalDisplay);
         let disabledInputs={
@@ -76,7 +89,7 @@ class BurgerBuilder extends Component{
         
        return (
            <Fragment>
-                <Modal show={this.state.order}><OrderSummary ingrediants={this.state.ingrediants}></OrderSummary></Modal>
+                <Modal show={this.state.order} modalClosed={this.modalClosed}><OrderSummary price={this.state.totalPrice} continueOrder={this.continueOrder} cancelOrder={this.cancelOrder} ingrediants={this.state.ingrediants}></OrderSummary></Modal>
                <Burger ingrediants={this.state.ingrediants}></Burger>
                <BuildControls price={this.state.totalPrice} order={this.order} add={this.addIngredientHandler} rem={this.removeIngredientHandler} disabled={disabledInputs}></BuildControls>
            </Fragment>

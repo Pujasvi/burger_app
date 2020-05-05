@@ -6,7 +6,7 @@ const Modal=(props)=>{
     let data;
     if(props.show){
         data=<Fragment>
-                <BackDrop show={props.show}></BackDrop>
+                <BackDrop show={props.show} clicked={props.modalClosed}></BackDrop>
                 <div  className={classes.Modal}>
                             {props.children}
                 </div>
@@ -17,9 +17,8 @@ const Modal=(props)=>{
         data=null;
     }
     console.log("modal rerender",data)
-    return (
-            data
-    )
+    return  data
+    
 }
 
 export default Modal;
