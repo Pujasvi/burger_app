@@ -1,6 +1,8 @@
 import React,{ Component ,Fragment} from "react";
 import Burger from '../../components/Burger/Burger'
 import BuildControls from "../../components/Burger/BuildControls/BuildControls";
+import Modal from "../../components/UI/Modal/Modal";
+import OrderSummary from "../../components/Burger/OrderSummary/OrderSummary";
 
 const INGREDIENT_PRICES={
     salad:0.5,
@@ -11,14 +13,17 @@ const INGREDIENT_PRICES={
 class BurgerBuilder extends Component{
     state={
         ingrediants:{
-            salad:1,
-            bacon:1,
-            cheese:2,
-            meat:1,
+            salad:0,
+            bacon:0,
+            cheese:0,
+            meat:0,
         },
-        totalPrice:4
+        totalPrice:4,
+        order:false,
+        
     }
-
+     ModalDisplay=null;
+     
 
     addIngredientHandler=(type)=>{
         console.log("add ingredient hadnler");
@@ -30,13 +35,16 @@ class BurgerBuilder extends Component{
         updatedIngredients[type]=newCount;
         const priceadd=INGREDIENT_PRICES[type];
         const newprice=this.state.totalPrice+priceadd;
+        
         this.setState({
             totalPrice:newprice,
-            ingrediants:updatedIngredients
+            ingrediants:updatedIngredients,
+            order:true,
         })
     }
     removeIngredientHandler=(type)=>{
         let count=this.state.ingrediants[type];
+        console.log(count);
         if(count>0){
             let newCount=count-1;
             let price=this.state.totalPrice-INGREDIENT_PRICES[type];
@@ -44,13 +52,21 @@ class BurgerBuilder extends Component{
                 ...this.state.ingrediants
             }
             newObject[type]=newCount;
+            console.log(newCount);
             this.setState({
                 totalPrice:price,
-                ingrediants:newObject
+                ingrediants:newObject,
+                order:newCount<=0?false:true
             })
         }
     }
+    order=()=>{
+       
+        this.ModalDisplay=<h1>heelo</h1>//<Modal><OrderSummary ingrediants={this.state.ingrediants}></OrderSummary></Modal>
+        console.log(this.ModalDisplay);
+    }
     render (){
+        console.log("this.test",this.ModalDisplay);
         let disabledInputs={
             ...this.state.ingrediants
         }
@@ -60,8 +76,9 @@ class BurgerBuilder extends Component{
         
        return (
            <Fragment>
+                <Modal show={this.state.order}><OrderSummary ingrediants={this.state.ingrediants}></OrderSummary></Modal>
                <Burger ingrediants={this.state.ingrediants}></Burger>
-               <BuildControls add={this.addIngredientHandler} rem={this.removeIngredientHandler} disabled={disabledInputs}></BuildControls>
+               <BuildControls price={this.state.totalPrice} order={this.order} add={this.addIngredientHandler} rem={this.removeIngredientHandler} disabled={disabledInputs}></BuildControls>
            </Fragment>
        )
     }
