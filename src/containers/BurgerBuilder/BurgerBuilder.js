@@ -3,6 +3,7 @@ import Burger from '../../components/Burger/Burger'
 import BuildControls from "../../components/Burger/BuildControls/BuildControls";
 import Modal from "../../components/UI/Modal/Modal";
 import OrderSummary from "../../components/Burger/OrderSummary/OrderSummary";
+import { object } from "joi";
 
 const INGREDIENT_PRICES={
     salad:0.5,
@@ -20,7 +21,7 @@ class BurgerBuilder extends Component{
         },
         totalPrice:4,
         order:false,
-        
+        displayModal:false
     }
      ModalDisplay=null;
      
@@ -53,21 +54,28 @@ class BurgerBuilder extends Component{
             }
             newObject[type]=newCount;
             console.log(newCount);
+
+            let totalCountIngredients=0;
+                object.Keys(newObject).map((key)=>{
+                    return newObject[key]>0?totalCountIngredients=totalCountIngredients+1:totalCountIngredients;
+                })
+
             this.setState({
                 totalPrice:price,
                 ingrediants:newObject,
-                order:newCount<=0?false:true
+                order:totalCountIngredients<=0?false:true
             })
         }
     }
     order=()=>{
-       
-        this.ModalDisplay=<h1>heelo</h1>//<Modal><OrderSummary ingrediants={this.state.ingrediants}></OrderSummary></Modal>
-        console.log(this.ModalDisplay);
+       console.log("ordered")
+        this.setState({
+            displayModal:this.state.order?true:false
+        })
     }
     modalClosed=()=>{
         this.setState({
-            order:false
+            displayModal:false
         })
     }
     continueOrder=()=>{
@@ -75,7 +83,7 @@ class BurgerBuilder extends Component{
     }
     cancelOrder=()=>{
         this.setState({
-            order:false
+            displayModal:false
         })
     }
     render (){
@@ -89,11 +97,11 @@ class BurgerBuilder extends Component{
         
        return (
            <Fragment>
-                <Modal show={this.state.order} modalClosed={this.modalClosed}><OrderSummary price={this.state.totalPrice} continueOrder={this.continueOrder} cancelOrder={this.cancelOrder} ingrediants={this.state.ingrediants}></OrderSummary></Modal>
+                <Modal show={this.state.displayModal} modalClosed={this.modalClosed}><OrderSummary price={this.state.totalPrice} continueOrder={this.continueOrder} cancelOrder={this.cancelOrder} ingrediants={this.state.ingrediants}></OrderSummary></Modal>
                <Burger ingrediants={this.state.ingrediants}></Burger>
                <BuildControls price={this.state.totalPrice} order={this.order} add={this.addIngredientHandler} rem={this.removeIngredientHandler} disabled={disabledInputs}></BuildControls>
            </Fragment>
-       )
+       )    
     }
 
 }

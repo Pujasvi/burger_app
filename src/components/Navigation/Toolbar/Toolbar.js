@@ -3,12 +3,12 @@ import classes from './Toolbar.module.css'
 import Logo from '../../Logo/Logo'
 import NavigationItems from '../NavigationItems/NavigationItems'
 
-const Toolbar=()=>(
+const Toolbar=(props)=>(
     <header className={classes.Toolbar}>
-        <div>Menu</div>
+        <div onClick={props.openSideBar}>Menu</div>
         <Logo></Logo>
-        <nav>
-            <NavigationItems></NavigationItems>
+        <nav className={classes.DesktopOnly}>
+            <NavigationItems  ></NavigationItems>
         </nav>
     </header>
 )
